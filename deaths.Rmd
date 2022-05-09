@@ -1,0 +1,172 @@
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+});
+</script>
+
+<style type="text/css">
+div.main-container {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+```{r initialize, message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include=FALSE}
+#Install/Activate necessary packages
+source("scripts/00M_Fonts_And_Colors.R")
+source("scripts/01M_Function_Declarations.R")
+source("scripts/02M_Data_Prep.R")
+
+# Run all scripts relevant to the deaths
+# of COVID-19 needed for this section
+source("scripts/deaths/03D_Date_of_Death.R")
+source("scripts/deaths/04D_Gender.R")
+source("scripts/deaths/05D_Race.R")
+source("scripts/deaths/06D_Ethnicity.R")
+source("scripts/deaths/07D_Age_Group.R")
+source("scripts/deaths/08D_Avg_Age.R")
+source("scripts/deaths/09D_Vaccination.R")
+source("scripts/deaths/10D_Top_Zip.R")
+
+ttl = list() # List of totals
+ftnotes = list() # List of footnotes
+pct = list() # List of percentages
+```
+
+## Deaths
+```{r death footnotes, message=FALSE, warning=FALSE, include=FALSE}
+ttl$deaths <- with(
+  processed_data$deaths,
+  list(
+    dod       = sum(dod$Deaths),
+    gender    = sum(gender$Deaths),
+    race      = sum(race$Deaths),
+    ethn      = sum(ethn$Deaths),
+    age_gr    = sum(age_gr$Deaths),
+    vacc      = sum(vacc$Deaths),
+    top_zip   = sum(top_zip$Deaths),
+    after2021 = sum(subset(dod, Date.of.Death >= as.Date("2021-01-01"))$Deaths)
+  )
+)
+
+pct$deaths <- c(
+  # Calculate percentages for age group
+  with(
+    processed_data$deaths$age_gr,
+    list(
+      age0 = Deaths[Age.Group == "0-17"]  / ttl$deaths$age_gr,
+      age1 = Deaths[Age.Group == "18-44"] / ttl$deaths$age_gr,
+      age2 = Deaths[Age.Group == "45-64"] / ttl$deaths$age_gr,
+      age3 = Deaths[Age.Group == "65-74"] / ttl$deaths$age_gr,
+      age4 = Deaths[Age.Group == "75+"]   / ttl$deaths$age_gr
+    )
+  ),
+  # Calculate percentages for race
+  with(
+    processed_data$deaths$race,
+    list(
+      white  = Deaths[Race == data_validation$race$White]  / ttl$deaths$race,
+      black  = Deaths[Race == data_validation$race$Black]  / ttl$deaths$race,
+      asian  = Deaths[Race == data_validation$race$Asian]  / ttl$deaths$race,
+      indian = Deaths[Race == data_validation$race$Native] / ttl$deaths$race,
+      other  = Deaths[Race == data_validation$race$Other]  / ttl$deaths$race
+    )
+  ),
+  after2021 = ttl$deaths$after2021 / ttl$deaths$dod
+)
+
+# Format footnotes for the deaths section
+ftnotes$deaths <- c(
+  with(
+    pct$deaths,
+    # Format the percentages to one decimal point and add
+    # a % symbol after the value.
+    list(
+      age0   = sprintf("%0.1f%%", age0 * 100),
+      age1   = sprintf("%0.1f%%", age1 * 100),
+      age2   = sprintf("%0.1f%%", age2 * 100),
+      age3   = sprintf("%0.1f%%", age3 * 100),
+      age4   = sprintf("%0.1f%%", age4 * 100),
+      white  = sprintf("%0.1f%%", white  * 100),
+      black  = sprintf("%0.1f%%", black  * 100),
+      asian  = sprintf("%0.1f%%", asian  * 100),
+      indian = sprintf("%0.1f%%", indian * 100),
+      other  = sprintf("%0.1f%%", other  * 100),
+      pct_after2021 = sprintf("%0.1f%%", after2021 * 100)
+    )
+  ),
+  with(
+    ttl$deaths,
+    # Format all values that use values from ttl$deaths
+    list(
+      unk_race      = format(as.numeric(dod - race), big.mark = ","),
+      unk_ethn      = format(as.numeric(dod - ethn), big.mark = ","),
+      top_zip       = format(as.numeric(top_zip), big.mark = ","),
+      pct_zip       = sprintf("%0.1f%%", top_zip / dod * 100),
+      ttl_after2021 = format(as.numeric(after2021), big.mark = ",")
+    )
+  )
+)
+```
+
+### Confirmed and Probable Deaths
+```{r, out.width='100%', fig.height=5}
+plots$deaths$dod
+```
+<b>Note: Due to delays in reporting recent data are incomplete.</b><br><br>
+
+### Demographics {.tabset}
+
+#### Age
+```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
+plots$deaths$age_gr
+```
+<b>Note: Due to delays in reporting recent data are incomplete. The percent per age group is: 0-17 = `r ftnotes$deaths$age0`; 18-44 = `r ftnotes$deaths$age1`; 45-64 = `r ftnotes$deaths$age2`; 65-74 = `r ftnotes$deaths$age3`; and 75+ = `r ftnotes$deaths$age4`.</b><br>
+
+<div align = "center">
+```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE}
+plots$deaths$avg_age
+
+ftnotes$deaths$avg_age <- sprintf("%0.1f", mean(processed_data$deaths$avg_age$Age.At.Death))
+```
+</div>
+<b>Note: Due to delays in reporting recent data are incomplete. Ages were calculated using laboratory reported or case reported date of birth. The calculated mean of known ages of confirmed cases of COVID-19 is `r ftnotes$deaths$avg_age`.</b><br><br>
+
+#### Gender
+```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
+plots$deaths$gender
+```
+<b>Note: Due to delays in reporting recent data are incomplete.</b><br><br>
+
+#### Race
+```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
+plots$deaths$race
+```
+<b>Note: Due to delays in reporting recent data are incomplete. Deaths with unknown race are not reported in the graph above (n=`r ftnotes$deaths$unk_race`). The percent per group is: White = `r ftnotes$deaths$white`; Black = `r ftnotes$deaths$black`; Other Race = `r ftnotes$deaths$other`; Asian or Pacific Islander or Native Hawaiian = `r ftnotes$deaths$asian`; and Native American or Alaskan Native = `r ftnotes$deaths$indian`.</b><br><br>
+
+#### Ethnicity
+```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
+plots$deaths$ethn
+```
+<b>Note: Due to delays in reporting recent data are incomplete. Deaths with unknown ethnicity are not reported in the graph above (n=`r ftnotes$deaths$unk_ethn`).</b><br><br>
+
+### Vaccination
+```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
+plots$deaths$vacc
+```
+<b>COVID-19 vaccines became available January 2021. `r ftnotes$deaths$ttl_after2021` (`r ftnotes$deaths$pct_after2021`) of the total deaths occurred after January 1st, 2021. In order to determine vaccination status, medical records and the New York State Immunization Information System are accessed. 69.0% (n=365) of the deaths that occurred in 2021 have a known vaccination status and 31.0% (n=164) have an unknown vaccination status.</b><br><br>
+
+### Municipalities
+```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
+plots$deaths$top_zip
+```
+<b>Note: Data is incomplete due to ongoing case investigation. Twenty most reported zip codes represented in graph (n=`r ftnotes$deaths$top_zip`) representing `r ftnotes$pct_deaths$pct_zip` of cases.</b>

@@ -7,3 +7,7 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
+    - text: "Confirmed Cases"
+      href: confirmed_cases.html
+    - text: "Deaths"
+      href: deaths.html
