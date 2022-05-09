@@ -1,13 +1,3 @@
-<script>
-$(document).ready(function() {
-  $items = $('div#TOC li');
-  $items.each(function(idx) {
-    num_ul = $(this).parentsUntil('#TOC').length;
-    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
-  });
-});
-</script>
-
 <style type="text/css">
 div.main-container {
   max-width: 1800px;
@@ -42,7 +32,6 @@ ftnotes = list() # List of footnotes
 pct = list() # List of percentages
 ```
 
-## Deaths
 ```{r death footnotes, message=FALSE, warning=FALSE, include=FALSE}
 ttl$deaths <- with(
   processed_data$deaths,
@@ -118,19 +107,19 @@ ftnotes$deaths <- c(
 )
 ```
 
-### Confirmed and Probable Deaths
+## Confirmed and Probable Deaths
 ```{r, out.width='100%', fig.height=5}
 plots$deaths$dod
 ```
-<b>Note: Due to delays in reporting recent data are incomplete.</b><br><br>
+**Note: Due to delays in reporting recent data are incomplete.**
 
-### Demographics {.tabset}
+## Demographics {.tabset}
 
-#### Age
+### Age
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$deaths$age_gr
 ```
-<b>Note: Due to delays in reporting recent data are incomplete. The percent per age group is: 0-17 = `r ftnotes$deaths$age0`; 18-44 = `r ftnotes$deaths$age1`; 45-64 = `r ftnotes$deaths$age2`; 65-74 = `r ftnotes$deaths$age3`; and 75+ = `r ftnotes$deaths$age4`.</b><br>
+**Note: Due to delays in reporting recent data are incomplete. The percent per age group is: 0-17 = `r ftnotes$deaths$age0`; 18-44 = `r ftnotes$deaths$age1`; 45-64 = `r ftnotes$deaths$age2`; 65-74 = `r ftnotes$deaths$age3`; and 75+ = `r ftnotes$deaths$age4`.**
 
 <div align = "center">
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE}
@@ -139,34 +128,34 @@ plots$deaths$avg_age
 ftnotes$deaths$avg_age <- sprintf("%0.1f", mean(processed_data$deaths$avg_age$Age.At.Death))
 ```
 </div>
-<b>Note: Due to delays in reporting recent data are incomplete. Ages were calculated using laboratory reported or case reported date of birth. The calculated mean of known ages of confirmed cases of COVID-19 is `r ftnotes$deaths$avg_age`.</b><br><br>
+**Note: Due to delays in reporting recent data are incomplete. Ages were calculated using laboratory reported or case reported date of birth. The calculated mean of known ages of confirmed cases of COVID-19 is `r ftnotes$deaths$avg_age`.**
 
-#### Gender
+### Gender
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$deaths$gender
 ```
-<b>Note: Due to delays in reporting recent data are incomplete.</b><br><br>
+**Note: Due to delays in reporting recent data are incomplete.**
 
-#### Race
+### Race
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$deaths$race
 ```
-<b>Note: Due to delays in reporting recent data are incomplete. Deaths with unknown race are not reported in the graph above (n=`r ftnotes$deaths$unk_race`). The percent per group is: White = `r ftnotes$deaths$white`; Black = `r ftnotes$deaths$black`; Other Race = `r ftnotes$deaths$other`; Asian or Pacific Islander or Native Hawaiian = `r ftnotes$deaths$asian`; and Native American or Alaskan Native = `r ftnotes$deaths$indian`.</b><br><br>
+**Note: Due to delays in reporting recent data are incomplete. Deaths with unknown race are not reported in the graph above (n=`r ftnotes$deaths$unk_race`). The percent per group is: White = `r ftnotes$deaths$white`; Black = `r ftnotes$deaths$black`; Other Race = `r ftnotes$deaths$other`; Asian or Pacific Islander or Native Hawaiian = `r ftnotes$deaths$asian`; and Native American or Alaskan Native = `r ftnotes$deaths$indian`.**
 
-#### Ethnicity
+### Ethnicity
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$deaths$ethn
 ```
-<b>Note: Due to delays in reporting recent data are incomplete. Deaths with unknown ethnicity are not reported in the graph above (n=`r ftnotes$deaths$unk_ethn`).</b><br><br>
+**Note: Due to delays in reporting recent data are incomplete. Deaths with unknown ethnicity are not reported in the graph above (n=`r ftnotes$deaths$unk_ethn`).**
 
-### Vaccination
+## Vaccination
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$deaths$vacc
 ```
-<b>COVID-19 vaccines became available January 2021. `r ftnotes$deaths$ttl_after2021` (`r ftnotes$deaths$pct_after2021`) of the total deaths occurred after January 1st, 2021. In order to determine vaccination status, medical records and the New York State Immunization Information System are accessed. 69.0% (n=365) of the deaths that occurred in 2021 have a known vaccination status and 31.0% (n=164) have an unknown vaccination status.</b><br><br>
+**COVID-19 vaccines became available January 2021. `r ftnotes$deaths$ttl_after2021` (`r ftnotes$deaths$pct_after2021`) of the total deaths occurred after January 1st, 2021. In order to determine vaccination status, medical records and the New York State Immunization Information System are accessed. 69.0% (n=365) of the deaths that occurred in 2021 have a known vaccination status and 31.0% (n=164) have an unknown vaccination status.**
 
-### Municipalities
+## Municipalities
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$deaths$top_zip
 ```
-<b>Note: Data is incomplete due to ongoing case investigation. Twenty most reported zip codes represented in graph (n=`r ftnotes$deaths$top_zip`) representing `r ftnotes$pct_deaths$pct_zip` of cases.</b>
+**Note: Data is incomplete due to ongoing case investigation. Twenty most reported zip codes represented in graph (n=`r ftnotes$deaths$top_zip`) representing `r ftnotes$pct_deaths$pct_zip` of cases.**
