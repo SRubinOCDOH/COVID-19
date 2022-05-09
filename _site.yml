@@ -14,10 +14,14 @@ navbar:
   right:
     - href: https://github.com/SRubinOCDOH/COVID-19
       icon: fa-github
-    - href: https://github.com/SRubinOCDOH/COVID-19
+    - href: https://twitter.com/OCGovNY
       icon: fa-twitter
-    - href: https://github.com/SRubinOCDOH/COVID-19
+    - href: https://www.orangecountygov.com/Instagram
       icon: fa-instagram
+    - href: https://www.youtube.com/channel/UCyYUnHO6epcZuDXg_akeqwg
+      icon: fa-youtube
+    - href: https://www.facebook.com/OrangeCountyGovernment
+      icon: fa-facebook
 output:
   html_document:
     theme: cerulean

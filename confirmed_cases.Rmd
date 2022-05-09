@@ -174,4 +174,3 @@ plots$cases$ethn
 plots$cases$top_zip
 ```
 **Note: Data is incomplete due to ongoing case investigation. Twenty most reported zip codes represented in graph (n=`r ftnotes$cases$top_zip`) representing `r ftnotes$cases$pct_top_zip` of cases.**
-
