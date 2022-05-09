@@ -1,7 +1,7 @@
 name: "my-website"
 output_dir: docs
 navbar:
-  title: "My Website"
+  title: "COVID-19 Dashboard"
   left:
     - text: "Home"
       href: index.html
@@ -11,3 +11,13 @@ navbar:
       href: confirmed_cases.html
     - text: "Deaths"
       href: deaths.html
+  right:
+    - href: https://github.com/SRubinOCDOH/COVID-19
+      icon: fa-github
+    - href: https://github.com/SRubinOCDOH/COVID-19
+      icon: fa-twitter
+    - href: https://github.com/SRubinOCDOH/COVID-19
+      icon: fa-instagram
+output:
+  html_document:
+    theme: cerulean
