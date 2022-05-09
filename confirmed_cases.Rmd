@@ -1,13 +1,3 @@
-<script>
-$(document).ready(function() {
-  $items = $('div#TOC li');
-  $items.each(function(idx) {
-    num_ul = $(this).parentsUntil('#TOC').length;
-    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
-  });
-});
-</script>
-
 <style type="text/css">
 div.main-container {
   max-width: 1800px;
@@ -43,7 +33,6 @@ ftnotes = list() # List of footnotes
 pct = list() # List of percentages
 ```
 
-## Confirmed Cases
 ```{r cases footnotes, message=FALSE, warning=FALSE, include=FALSE}
 # Total of all cases in each category (where known)
 ttl <- with(
@@ -123,63 +112,62 @@ ftnotes$cases <- c(
 )
 ```
 
-### Confirmed Cases of COVID-19 {.tabset}
+## Confirmed Cases of COVID-19 {.tabset}
 
-#### Daily Cases
+### Daily Cases
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$cases$daily
 ```
-<b>Note: The dates in 2020 of April 24th, April 29th, December 17th, and in 2021 of March 17th and December 29th were dates when laboratories uploaded backlogged data.</b><br><br>
+**Note: The dates in 2020 of April 24th, April 29th, December 17th, and in 2021 of March 17th and December 29th were dates when laboratories uploaded backlogged data.**
 
-#### Symptomatic Cases
+### Symptomatic Cases
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$cases$symp
 ```
-<b>Note: This graph does not reflect the most recent cases due to case investigation and data processing. Individuals who were asymptomatic (`r ftnotes$cases$asymp`), in data processing, were lost to follow up and/or had an unknown date of first symptom (`r ftnotes$cases$unk_symp`) or reported a symptom onset date prior to December 1, 2019 (<5) were excluded from analysis. Cases represented in graph (n=`r ftnotes$cases$symp`).</b><br><br>
+**Note: This graph does not reflect the most recent cases due to case investigation and data processing. Individuals who were asymptomatic (`r ftnotes$cases$asymp`), in data processing, were lost to follow up and/or had an unknown date of first symptom (`r ftnotes$cases$unk_symp`) or reported a symptom onset date prior to December 1, 2019 (<5) were excluded from analysis. Cases represented in graph (n=`r ftnotes$cases$symp`).**
 
-#### Asymptomatic Cases
+### Asymptomatic Cases
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$cases$asymp
 ```
-<b>Note: This graph does not reflect the most recent cases due to case investigation and data processing. Represented in graph (n=`r ftnotes$cases$asymp`) reporting no symptoms at the time of interview.</b><br><br>
+**Note: This graph does not reflect the most recent cases due to case investigation and data processing. Represented in graph (n=`r ftnotes$cases$asymp`) reporting no symptoms at the time of interview.**
 
-### Demographics {.tabset}
+## Demographics {.tabset}
 
-#### Age
+### Age
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$cases$age_gr
 ```
-<b>Note: Ages were calculated using laboratory reported or case reported date of birth. Missing data (n=`r ftnotes$cases$unk_age`).<br>
-The percent per age group is: 0-17 = `r ftnotes$cases$age0`; 18-44 = `r ftnotes$cases$age1`; 45-64 = `r ftnotes$cases$age2`; 65-74 = `r ftnotes$cases$age3`; and 75+ = `r ftnotes$cases$age4`.</b><br>
+**Note: Ages were calculated using laboratory reported or case reported date of birth. Missing data (n=`r ftnotes$cases$unk_age`). The percent per age group is: 0-17 = `r ftnotes$cases$age0`; 18-44 = `r ftnotes$cases$age1`; 45-64 = `r ftnotes$cases$age2`; 65-74 = `r ftnotes$cases$age3`; and 75+ = `r ftnotes$cases$age4`.**
 
 <div align = "center">
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE}
 plots$cases$avg_age
 ```
 </div>
-<b>Note: Ages were calculated using laboratory reported or case reported date of birth. Missing data (n=`r ftnotes$cases$unk_age`). The calculated mean of known ages of confirmed cases of COVID-19 is `r ftnotes$cases$avg_age`.</b><br><br>
+**Note: Ages were calculated using laboratory reported or case reported date of birth. Missing data (n=`r ftnotes$cases$unk_age`). The calculated mean of known ages of confirmed cases of COVID-19 is `r ftnotes$cases$avg_age`.**
 
-#### Gender
+### Gender
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$cases$gender
 ```
-<b>Note: Gender is self-reported field. Missing or Unknown when laboratory reporting did not provide this information and case has not been reached yet (n=`r ftnotes$cases$unk_gender`).</b><br><br>
+**Note: Gender is self-reported field. Missing or Unknown when laboratory reporting did not provide this information and case has not been reached yet (n=`r ftnotes$cases$unk_gender`).**
 
-#### Race
+### Race
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$cases$race
 ```
-<b>Note: Race is largely self-reported data and are identified through case investigation. Data are incomplete due to delays in reporting, data entry, unknown or undetermined risk factors and persons lost to follow up (n=`r ftnotes$cases$unk_race`).<br>The percent per group is: White = `r ftnotes$cases$white`; Other Race = `r ftnotes$cases$other`; Black = `r ftnotes$cases$black`; Asian or Pacific Islander or Native Hawaiian = `r ftnotes$cases$asian`; and Native American or Alaskan Native = `r ftnotes$cases$indian`.</b><br><br>
+**Note: Race is largely self-reported data and are identified through case investigation. Data are incomplete due to delays in reporting, data entry, unknown or undetermined risk factors and persons lost to follow up (n=`r ftnotes$cases$unk_race`).<br>The percent per group is: White = `r ftnotes$cases$white`; Other Race = `r ftnotes$cases$other`; Black = `r ftnotes$cases$black`; Asian or Pacific Islander or Native Hawaiian = `r ftnotes$cases$asian`; and Native American or Alaskan Native = `r ftnotes$cases$indian`.**
 
-#### Ethnicity
+### Ethnicity
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$cases$ethn
 ```
-<b>Note: Ethnicity is largely self-reported data and are identified through case investigation. Data are incomplete due to delays in reporting, data entry,unknown, or undetermined risk factors and persons lost to follow-up (n=`r ftnotes$cases$unk_ethn`).</b><br><br>
+**Note: Ethnicity is largely self-reported data and are identified through case investigation. Data are incomplete due to delays in reporting, data entry,unknown, or undetermined risk factors and persons lost to follow-up (n=`r ftnotes$cases$unk_ethn`).**
 
-### Municipalities
+## Municipalities
 ```{r echo=FALSE, fig.height=5, message=FALSE, warning=FALSE, out.width='100%'}
 plots$cases$top_zip
 ```
-<b>Note: Data is incomplete due to ongoing case investigation. Twenty most reported zip codes represented in graph (n=`r ftnotes$cases$top_zip`) representing `r ftnotes$cases$pct_top_zip` of cases.</b><br><br>
+**Note: Data is incomplete due to ongoing case investigation. Twenty most reported zip codes represented in graph (n=`r ftnotes$cases$top_zip`) representing `r ftnotes$cases$pct_top_zip` of cases.**
 
