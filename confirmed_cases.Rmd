@@ -1,3 +1,7 @@
+---
+title: "Confirmed Cases"
+---
+
 <style type="text/css">
 div.main-container {
   max-width: 1800px;
