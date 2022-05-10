@@ -210,4 +210,7 @@ plots$cases$zip_daily <- layout(
   )
 )
 
+#Disable mode bar on graph
+plots$cases$zip_daily <- config(plots$cases$zip_daily, displayModeBar = FALSE)
+
 plots$cases$zip_daily
