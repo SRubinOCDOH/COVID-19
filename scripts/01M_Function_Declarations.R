@@ -1,3 +1,19 @@
+# Function to download and activate all necessary packages
+# for this project to run properly
+get_dependencies <- function(...) {
+  libs <- unlist(list(...))
+  req <- unlist(lapply(libs, require, character.only = TRUE))
+  need <- libs[req == FALSE]
+  
+  if (length(need) > 0) {
+    install.packages(need)
+    lapply(need, require, character.only = TRUE)
+  }
+}
+
+# Function for dynamically creating graph names for plots
+# Uses parameters to find the date and cases of the title
+# and uses the passed string value to start the title
 make_graph_name <- function(opening_string, date_column,
                             cases_column, check_wk, total) {
   max_date <- format(as.Date(max(date_column)), "%B %d, %Y")
@@ -75,83 +91,4 @@ format_plotly <- function(temp_plot, temp_title, x_label,
   
   #Disable mode bar on graph
   temp_plot <- config(temp_plot, displayModeBar = FALSE)
-}
-
-# Function to download and activate all necessary packages
-# for this project to run properly
-get_dependencies <- function(...) {
-  libs <- unlist(list(...))
-  req <- unlist(lapply(libs, require, character.only = TRUE))
-  need <- libs[req == FALSE]
-  
-  if (length(need) > 0) {
-    install.packages(need)
-    lapply(need, require, character.only = TRUE)
-  }
-}
-
-# Function to be called to obtain raw data from the excel files
-# in the data folder
-get_raw_data <- function() {
-  temp_data <- list(
-    # A table of all confirmed cases of COVID-19 within Orange County, NY
-    cases = read_xlsx(
-      "data/raw/Line List of Confirmed Cases and Deaths.xlsx",
-      sheet = "Confirmed Cases",
-      .name_repair = "universal",
-      col_types = c(
-        "date", "numeric", "text", "text",
-        "text", "text",    "text", "text",
-        "text", "text",    "text", "date",
-        "text", "text",    "text", "text",
-        "date", "date",    "text", "text"
-      )
-    ),
-    # A table of all confirmed and probably deaths related to
-    # COVID-19 within Orange County, NY
-    deaths = read_xlsx(
-      "data/raw/Line List of Confirmed Cases and Deaths.xlsx",
-      sheet = "Deaths",
-      .name_repair = "universal",
-      col_types = c(
-        "text", "text", "numeric", "date",
-        "text", "date", "text",    "numeric",
-        "text", "text", "text",    "text",
-        "text", "text", "text",    "text",
-        "text", "text", "text"
-      )
-    )
-  )
-}
-
-create_data_validation <- function() {
-  # A list of validated data separated by category
-  temp_list <- list(
-    gender = list(
-      "M" = "Male",
-      "F" = "Female"
-    ),
-    race = list(
-      "White"  = "White",
-      "Black"  = "Black",
-      "Native" = "Native American/Alaska Native",
-      "Asian"  = "Asian/Native Hawaiian/Other Pacific Islander",
-      "Other"  = "Other"
-    ),
-    ethnicity = list(
-      "Hispanic" = "Hispanic",
-      "Non.Hispanic" = "Non-Hispanic"
-    ),
-    vaccination = list(
-      "None" = "None",
-      "Partially" = "Partially",
-      "Fully" = "Fully",
-      "Boosted" = "Boosted"
-    ),
-    zip_codes = read_xlsx(
-      "data/raw/Zip Codes and Towns.xlsx",
-      col_types = c("numeric", "text"),
-      .name_repair = "universal"
-    )
-  )
 }

@@ -5,10 +5,65 @@ get_dependencies(
 )
 
 # Retrieve all the raw data required for calculations
-raw_data <- get_raw_data()
+raw_data <- list(
+  # A table of all confirmed cases of COVID-19 within Orange County, NY
+  cases = read_xlsx(
+    "data/raw/Line List of Confirmed Cases and Deaths.xlsx",
+    sheet = "Confirmed Cases",
+    .name_repair = "universal",
+    col_types = c(
+      "date", "numeric", "text", "text",
+      "text", "text",    "text", "text",
+      "text", "text",    "text", "date",
+      "text", "text",    "text", "text",
+      "date", "date",    "text", "text"
+    )
+  ),
+  # A table of all confirmed and probably deaths related to
+  # COVID-19 within Orange County, NY
+  deaths = read_xlsx(
+    "data/raw/Line List of Confirmed Cases and Deaths.xlsx",
+    sheet = "Deaths",
+    .name_repair = "universal",
+    col_types = c(
+      "text", "text", "numeric", "date",
+      "text", "date", "text",    "numeric",
+      "text", "text", "text",    "text",
+      "text", "text", "text",    "text",
+      "text", "text", "text"
+    )
+  )
+)
 
 # Ensure data validation options are created
-data_validation <- create_data_validation()
+data_validation <- list(
+  gender = list(
+    "M" = "Male",
+    "F" = "Female"
+  ),
+  race = list(
+    "White"  = "White",
+    "Black"  = "Black",
+    "Native" = "Native American/Alaska Native",
+    "Asian"  = "Asian/Native Hawaiian/Other Pacific Islander",
+    "Other"  = "Other"
+  ),
+  ethnicity = list(
+    "Hispanic" = "Hispanic",
+    "Non.Hispanic" = "Non-Hispanic"
+  ),
+  vaccination = list(
+    "None" = "None",
+    "Partially" = "Partially",
+    "Fully" = "Fully",
+    "Boosted" = "Boosted"
+  ),
+  zip_codes = read_xlsx(
+    "data/raw/Zip Codes and Towns.xlsx",
+    col_types = c("numeric", "text"),
+    .name_repair = "universal"
+  ) %>% arrange(Town.City)
+)
 
 # Create empty lists to store data and plots
 # Deletes any previous data which was stored in the lists
