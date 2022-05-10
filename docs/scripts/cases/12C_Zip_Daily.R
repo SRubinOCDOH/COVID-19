@@ -16,10 +16,11 @@ processed_data$cases$zip_daily <- merge(processed_data$cases$zip_daily, data_val
 processed_data$cases$zip_daily <- processed_data$cases$zip_daily[order(processed_data$cases$zip_daily$Date.Received, decreasing = FALSE), ]
 
 # Create the chart title
+open_string <- "Confirmed Cases of COVID-19"
 max_date <- format(as.Date(max(processed_data$cases$zip_daily$Date.Received)), "%B %d, %Y")
 cases <- format(as.numeric(sum(processed_data$cases$zip_daily$Cases)), big.mark = ",")
 
-y_max <- max(processed_data$cases$zip_daily$Cases) * 1.05
+chart_title <- str_glue('Confirmed Cases of COVID-19 by Municipality\nOrange County, NY as of {max_date}')
 
 plots$cases$zip_daily <- plot_ly(
   processed_data$cases$zip_daily,
@@ -41,10 +42,15 @@ plots$cases$zip_daily <- plot_ly(
 
 plots$cases$zip_daily <- layout(
   plots$cases$zip_daily,
+  title = list(text = chart_title, font = my_fonts$title),
+  xaxis = list(text = "Date Received", my_fonts$axes),
+  yaxis = list(text = "Cases", my_fonts$axes),
+  margin = list(l = 10, r = 10, b = 10, t = 50, pad = 15),
   updatemenus = list(
     list(
+      y = 1.1,
+      x = -0.1,
       type = 'dropdown',
-      active = 0,
       buttons = list(
         list(method = "restyle",
              args = list("transforms[0].value", unique(data_validation$zip_codes$Town.City)[1]),
