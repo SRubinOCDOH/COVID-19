@@ -10,7 +10,7 @@ chart_title <- make_graph_name(
   raw_data$cases$Date.Received,
   processed_data$cases$age_gr$Cases,
   check_wk = TRUE,
-  sum(processed_data$daily$Cases)
+  sum(processed_data$cases$daily$Cases)
 )
 
 y_max <- max(processed_data$cases$age_gr$Cases) * 1.05

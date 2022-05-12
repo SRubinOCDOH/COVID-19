@@ -10,7 +10,7 @@ chart_title <- make_graph_name(
   raw_data$cases$Date.Received,
   processed_data$deaths$gender$Deaths,
   check_wk = TRUE,
-  sum(processed_data$dt_dod$Deaths)
+  sum(processed_data$deaths$dod$Deaths)
 )
 
 # Create the graph and store it in a list of all graphs

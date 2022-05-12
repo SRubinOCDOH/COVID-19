@@ -10,7 +10,7 @@ chart_title <- make_graph_name(
   raw_data$cases$Date.Received,
   processed_data$cases$gender$Cases,
   check_wk = TRUE,
-  sum(processed_data$daily$Cases)
+  sum(processed_data$cases$daily$Cases)
 )
 
 plots$cases$gender <- plot_ly(
